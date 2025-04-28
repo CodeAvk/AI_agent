@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - AI Supervisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            color: #333;
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .knowledge-list {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .knowledge-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .knowledge-item:last-child {
+            border-bottom: none;
+        }
+        .knowledge-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .knowledge-answer {
+            margin-bottom: 10px;
+        }
+        .knowledge-meta {
+            font-size: 12px;
+            color: #777;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .no-entries {
+            padding: 20px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Knowledge Base</h1>
+            <nav>
+                <a href="/">Dashboard</a>
+                <a href="/requests">Requests</a>
+                <a href="/knowledge">Knowledge Base</a>
+            </nav>
+        </header>
+        
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search knowledge base...">
+        </div>
+        
+        <div class="knowledge-list">
+            {% if entries %}
+                {% for entry in entries %}
+                <div class="knowledge-item">
+                    <div class="knowledge-question">Q: {{ entry.question }}</div>
+                    <div class="knowledge-answer">A: {{ entry.answer }}</div>
+                    <div class="knowledge-meta">
+                        Added: {{ entry.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        {% if entry.help_request_id %}
+                        | From Request: #{{ entry.help_request_id }}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-entries">
+                    <p>No knowledge base entries found.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const items = document.querySelectorAll('.knowledge-item');
+            
+            items.forEach(item => {
+                const question = item.querySelector('.knowledge-question').textContent.toLowerCase();
+                const answer = item.querySelector('.knowledge-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchText) || answer.includes(searchText)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
