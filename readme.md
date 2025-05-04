@@ -92,6 +92,9 @@ The code is organized into logical modules:
 - `web/`: Web interface and routes
 - `utils/`: Utility functions like notifications
 
+### Flow-Design
+https://drive.google.com/file/d/1g_Gf2ft0ppMCrgx7rm7LOUXw1Lohj_HS/view?usp=sharing
+
 ## Future Improvements
 
 1. Implement Phase 2 with live call transfers
